@@ -1,0 +1,15 @@
+# Node
+node_modules/
+dist/
+build/
+*.log
+
+# Maven / Java
+target/
+*.class
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.DS_Store
