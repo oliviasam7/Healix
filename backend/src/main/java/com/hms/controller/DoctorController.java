@@ -33,20 +33,34 @@ public class DoctorController {
     }
 
     @PostMapping("/appointments/{id}/confirm")
-    public ResponseEntity<?> confirm(@PathVariable Long id) {
+    public ResponseEntity<?> confirm(@PathVariable Long id, Authentication auth) {
+        Appointment appointment = appointmentService.findById(id);
+        Doctor doctor = currentDoctor(auth);
+        if (appointment.getDoctor() == null || !appointment.getDoctor().getId().equals(doctor.getId())) {
+            return ResponseEntity.status(403).body(Map.of("error", "You don't have access to this appointment."));
+        }
         appointmentService.updateStatus(id, AppointmentStatus.CONFIRMED);
         return ResponseEntity.ok(Map.of("message", "Appointment confirmed."));
     }
 
     @PostMapping("/appointments/{id}/cancel")
-    public ResponseEntity<?> cancel(@PathVariable Long id) {
+    public ResponseEntity<?> cancel(@PathVariable Long id, Authentication auth) {
+        Appointment appointment = appointmentService.findById(id);
+        Doctor doctor = currentDoctor(auth);
+        if (appointment.getDoctor() == null || !appointment.getDoctor().getId().equals(doctor.getId())) {
+            return ResponseEntity.status(403).body(Map.of("error", "You don't have access to this appointment."));
+        }
         appointmentService.updateStatus(id, AppointmentStatus.CANCELLED);
         return ResponseEntity.ok(Map.of("message", "Appointment cancelled."));
     }
 
     @PostMapping("/appointments/{id}/complete")
-    public ResponseEntity<?> complete(@PathVariable Long id, @RequestBody CompleteAppointmentRequest req) {
+    public ResponseEntity<?> complete(@PathVariable Long id, @RequestBody CompleteAppointmentRequest req, Authentication auth) {
         Appointment appointment = appointmentService.findById(id);
+        Doctor doctor = currentDoctor(auth);
+        if (appointment.getDoctor() == null || !appointment.getDoctor().getId().equals(doctor.getId())) {
+            return ResponseEntity.status(403).body(Map.of("error", "You don't have access to this appointment."));
+        }
         medicalRecordService.create(appointment, req.diagnosis, req.prescription, req.notes);
         appointmentService.updateStatus(id, AppointmentStatus.COMPLETED);
         return ResponseEntity.ok(Map.of("message", "Consultation recorded."));

@@ -56,7 +56,12 @@ public class PatientController {
     }
 
     @PostMapping("/appointments/{id}/cancel")
-    public ResponseEntity<?> cancel(@PathVariable Long id) {
+    public ResponseEntity<?> cancel(@PathVariable Long id, Authentication auth) {
+        Appointment appointment = appointmentService.findById(id);
+        Patient patient = currentPatient(auth);
+        if (appointment.getPatient() == null || !appointment.getPatient().getId().equals(patient.getId())) {
+            return ResponseEntity.status(403).body(Map.of("error", "You don't have access to this appointment."));
+        }
         appointmentService.updateStatus(id, AppointmentStatus.CANCELLED);
         return ResponseEntity.ok(Map.of("message", "Appointment cancelled."));
     }
