@@ -25,6 +25,8 @@ public class Doctor {
     // Simple daily window, e.g. "09:00 AM - 04:00 PM"
     private String availableTimeSlots;
 
+    private String room;
+
     public Doctor() {}
 
     public Long getId() { return id; }
@@ -50,4 +52,7 @@ public class Doctor {
 
     public String getAvailableTimeSlots() { return availableTimeSlots; }
     public void setAvailableTimeSlots(String availableTimeSlots) { this.availableTimeSlots = availableTimeSlots; }
+
+    public String getRoom() { return room; }
+    public void setRoom(String room) { this.room = room; }
 }

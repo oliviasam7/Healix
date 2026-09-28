@@ -25,5 +25,6 @@ public class RequestDtos {
         public double consultationFee;
         public String availableDays;
         public String availableTimeSlots;
+        public String room;
     }
 }

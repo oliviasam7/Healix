@@ -2,6 +2,7 @@ package com.hms.controller;
 
 import com.hms.dto.AppointmentDto;
 import com.hms.dto.DoctorDto;
+import com.hms.dto.PatientDto;
 import com.hms.dto.RequestDtos.AddDoctorRequest;
 import com.hms.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,13 @@ public class AdminController {
     public DoctorDto addDoctor(@RequestBody AddDoctorRequest req) {
         var doctor = userService.registerDoctor(req.fullName, req.email, req.password, req.phone,
                 req.specialization, req.qualification, req.experienceYears, req.consultationFee,
-                req.availableDays, req.availableTimeSlots);
+                req.availableDays, req.availableTimeSlots, req.room);
         return DoctorDto.from(doctor);
+    }
+
+    @GetMapping("/patients")
+    public List<PatientDto> allPatients() {
+        return userService.findAllPatients().stream().map(PatientDto::from).collect(Collectors.toList());
     }
 
     @GetMapping("/appointments")

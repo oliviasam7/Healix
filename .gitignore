@@ -17,6 +17,7 @@ target/
 # Environment & local configurations
 .env
 .env*.local
+backend/src/main/java/com/hms/config/application.properties
 backend/src/main/resources/application-local.properties
 backend/src/main/resources/application-dev.properties
-backend/src/main/resources/application.properties
+backend/config/
