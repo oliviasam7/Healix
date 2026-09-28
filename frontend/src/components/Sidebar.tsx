@@ -7,6 +7,7 @@ export type Screen =
   | 'patient-records'
   | 'doctor-schedule'
   | 'admin-dashboard'
+  | 'admin-patients'
   | 'admin-add-doctor';
 
 interface NavItem {
@@ -27,6 +28,7 @@ const DOCTOR_ITEMS: NavItem[] = [
 
 const ADMIN_ITEMS: NavItem[] = [
   { screen: 'admin-dashboard', label: 'Dashboard', icon: 'dashboard' },
+  { screen: 'admin-patients', label: 'Registered Patients', icon: 'group' },
   { screen: 'admin-add-doctor', label: 'Add Doctor', icon: 'person_add' },
 ];
 

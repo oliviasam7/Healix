@@ -5,9 +5,15 @@ import { MedicalRecordDto } from '../../types';
 export const PatientRecords: React.FC = () => {
   const [records, setRecords] = useState<MedicalRecordDto[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    api.get('/patient/records').then((res) => setRecords(res.data)).finally(() => setLoading(false));
+    setLoading(true);
+    setError('');
+    api.get('/patient/records')
+      .then((res) => setRecords(res.data))
+      .catch((err) => setError(err?.response?.data?.error || err?.message || 'Failed to load records.'))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -16,6 +22,8 @@ export const PatientRecords: React.FC = () => {
 
       {loading ? (
         <p className="text-[13px] text-[#707881]">Loading...</p>
+      ) : error ? (
+        <p className="text-[13px] text-[#93000a]">{error}</p>
       ) : records.length === 0 ? (
         <div className="bg-white rounded-xl shadow-xs border border-[#bfc7d2]/30 p-6">
           <p className="text-[13px] text-[#707881]">No medical records yet.</p>

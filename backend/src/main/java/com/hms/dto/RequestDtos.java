@@ -27,4 +27,16 @@ public class RequestDtos {
         public String availableTimeSlots;
         public String room;
     }
+
+    public static class UpdateDoctorProfileRequest {
+        public String fullName;
+        public String phone;
+        public String specialization;
+        public String qualification;
+        public Integer experienceYears;
+        public Double consultationFee;
+        public String availableDays;
+        public String availableTimeSlots;
+        public String room;
+    }
 }

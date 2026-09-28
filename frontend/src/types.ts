@@ -17,6 +17,7 @@ export interface DoctorDto {
   consultationFee: number;
   availableDays: string;
   availableTimeSlots: string;
+  room?: string | null;
 }
 
 export interface PatientDto {
@@ -38,6 +39,7 @@ export interface AppointmentDto {
   patientName: string;
   doctorId: number;
   doctorName: string;
+  doctorRoom?: string | null;
   specialization: string;
   appointmentDate: string;
   appointmentTime: string;

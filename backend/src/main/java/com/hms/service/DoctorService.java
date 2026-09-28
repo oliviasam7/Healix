@@ -25,4 +25,8 @@ public class DoctorService {
         return doctorRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("Doctor not found."));
     }
+
+    public Doctor save(Doctor doctor) {
+        return doctorRepository.save(doctor);
+    }
 }

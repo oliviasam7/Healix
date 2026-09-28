@@ -8,10 +8,15 @@ export const DoctorSchedule: React.FC = () => {
   const [appointments, setAppointments] = useState<AppointmentDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [completingId, setCompletingId] = useState<number | null>(null);
+  const [error, setError] = useState('');
 
   const load = () => {
     setLoading(true);
-    api.get('/doctor/appointments').then((res) => setAppointments(res.data)).finally(() => setLoading(false));
+    setError('');
+    api.get('/doctor/appointments')
+      .then((res) => setAppointments(res.data))
+      .catch((err) => setError(err?.response?.data?.error || err?.message || 'Failed to load schedule.'))
+      .finally(() => setLoading(false));
   };
 
   useEffect(load, []);
@@ -28,49 +33,53 @@ export const DoctorSchedule: React.FC = () => {
 
         {loading ? (
           <p className="text-[13px] text-[#707881]">Loading...</p>
+        ) : error ? (
+          <p className="text-[13px] text-[#93000a]">{error}</p>
         ) : appointments.length === 0 ? (
           <p className="text-[13px] text-[#707881]">No appointments yet.</p>
         ) : (
-          <table className="w-full text-left">
-            <thead>
-              <tr className="text-[11px] uppercase tracking-wider text-[#707881] border-b border-[#bfc7d2]/30">
-                <th className="py-2 pr-3">Patient</th>
-                <th className="py-2 pr-3">Date</th>
-                <th className="py-2 pr-3">Time</th>
-                <th className="py-2 pr-3">Reason</th>
-                <th className="py-2 pr-3">Status</th>
-                <th className="py-2 pr-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {appointments.map((a) => (
-                <tr key={a.id} className="border-b border-[#bfc7d2]/20">
-                  <td className="py-3 pr-3 text-[13px] font-semibold text-[#131b2e]">{a.patientName}</td>
-                  <td className="py-3 pr-3 text-[13px] text-[#3f4850]">{a.appointmentDate}</td>
-                  <td className="py-3 pr-3 text-[13px] text-[#3f4850]">{a.appointmentTime}</td>
-                  <td className="py-3 pr-3 text-[13px] text-[#3f4850]">{a.reason}</td>
-                  <td className="py-3 pr-3"><StatusBadge status={a.status} /></td>
-                  <td className="py-3 pr-3 flex gap-2 flex-wrap">
-                    {a.status === 'PENDING' && (
-                      <button onClick={() => confirm(a.id)} className="text-[12px] font-semibold text-[#006194] hover:underline">
-                        Confirm
-                      </button>
-                    )}
-                    {a.status === 'CONFIRMED' && (
-                      <button onClick={() => setCompletingId(a.id)} className="text-[12px] font-semibold text-[#006a61] hover:underline">
-                        Complete
-                      </button>
-                    )}
-                    {(a.status === 'PENDING' || a.status === 'CONFIRMED') && (
-                      <button onClick={() => cancel(a.id)} className="text-[12px] font-semibold text-[#93000a] hover:underline">
-                        Cancel
-                      </button>
-                    )}
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="text-[11px] uppercase tracking-wider text-[#707881] border-b border-[#bfc7d2]/30">
+                  <th className="py-2 pr-3">Patient</th>
+                  <th className="py-2 pr-3">Date</th>
+                  <th className="py-2 pr-3">Time</th>
+                  <th className="py-2 pr-3">Reason</th>
+                  <th className="py-2 pr-3">Status</th>
+                  <th className="py-2 pr-3">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {appointments.map((a) => (
+                  <tr key={a.id} className="border-b border-[#bfc7d2]/20">
+                    <td className="py-3 pr-3 text-[13px] font-semibold text-[#131b2e]">{a.patientName}</td>
+                    <td className="py-3 pr-3 text-[13px] text-[#3f4850]">{a.appointmentDate}</td>
+                    <td className="py-3 pr-3 text-[13px] text-[#3f4850]">{a.appointmentTime}</td>
+                    <td className="py-3 pr-3 text-[13px] text-[#3f4850]">{a.reason}</td>
+                    <td className="py-3 pr-3"><StatusBadge status={a.status} /></td>
+                    <td className="py-3 pr-3 flex gap-2 flex-wrap">
+                      {a.status === 'PENDING' && (
+                        <button onClick={() => confirm(a.id)} className="text-[12px] font-semibold text-[#006194] hover:underline">
+                          Confirm
+                        </button>
+                      )}
+                      {a.status === 'CONFIRMED' && (
+                        <button onClick={() => setCompletingId(a.id)} className="text-[12px] font-semibold text-[#006a61] hover:underline">
+                          Complete
+                        </button>
+                      )}
+                      {(a.status === 'PENDING' || a.status === 'CONFIRMED') && (
+                        <button onClick={() => cancel(a.id)} className="text-[12px] font-semibold text-[#93000a] hover:underline">
+                          Cancel
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 

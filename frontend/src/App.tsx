@@ -9,6 +9,7 @@ import { PatientAppointments } from './pages/patient/PatientAppointments';
 import { PatientRecords } from './pages/patient/PatientRecords';
 import { DoctorSchedule } from './pages/doctor/DoctorSchedule';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { AdminPatients } from './pages/admin/AdminPatients';
 import { AddDoctor } from './pages/admin/AddDoctor';
 
 function defaultScreenFor(role: string): Screen {
@@ -46,6 +47,7 @@ const AppShell: React.FC = () => {
           {screen === 'patient-records' && <PatientRecords />}
           {screen === 'doctor-schedule' && <DoctorSchedule />}
           {screen === 'admin-dashboard' && <AdminDashboard refreshKey={refreshKey} />}
+          {screen === 'admin-patients' && <AdminPatients />}
           {screen === 'admin-add-doctor' && <AddDoctor onAdded={bump} />}
         </main>
       </div>

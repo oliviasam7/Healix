@@ -4,7 +4,7 @@ import api from '../../api/client';
 const initial = {
   fullName: '', email: '', password: '', phone: '',
   specialization: '', qualification: '', experienceYears: '', consultationFee: '',
-  availableDays: '', availableTimeSlots: '',
+  availableDays: '', availableTimeSlots: '', room: '',
 };
 
 export const AddDoctor: React.FC<{ onAdded: () => void }> = ({ onAdded }) => {
@@ -25,6 +25,7 @@ export const AddDoctor: React.FC<{ onAdded: () => void }> = ({ onAdded }) => {
         ...form,
         experienceYears: Number(form.experienceYears),
         consultationFee: Number(form.consultationFee),
+        room: form.room ? form.room.trim() : null,
       });
       setSuccess(true);
       setForm(initial);
@@ -110,6 +111,11 @@ export const AddDoctor: React.FC<{ onAdded: () => void }> = ({ onAdded }) => {
               <input required placeholder="e.g. 9:00 AM - 4:00 PM" value={form.availableTimeSlots} onChange={update('availableTimeSlots')}
                 className="w-full h-10 px-3 text-[13px] bg-[#f2f3ff] rounded-lg border border-[#bfc7d2]/40 focus:border-[#006194] focus:outline-none" />
             </div>
+          </div>
+          <div>
+            <span className="text-[11px] text-[#707881] font-semibold block mb-1">Room (optional)</span>
+            <input placeholder="e.g. Room 302" value={form.room} onChange={update('room')}
+              className="w-full h-10 px-3 text-[13px] bg-[#f2f3ff] rounded-lg border border-[#bfc7d2]/40 focus:border-[#006194] focus:outline-none" />
           </div>
           <button type="submit" disabled={saving}
             className="w-full h-11 rounded-lg bg-[#006194] text-white font-bold text-[14px] hover:bg-[#004b73] disabled:opacity-60">
