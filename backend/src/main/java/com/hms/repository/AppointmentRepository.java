@@ -1,6 +1,7 @@
 package com.hms.repository;
 
 import com.hms.model.Appointment;
+import com.hms.model.AppointmentStatus;
 import com.hms.model.Doctor;
 import com.hms.model.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +12,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findByPatientOrderByAppointmentDateDesc(Patient patient);
     List<Appointment> findByDoctorOrderByAppointmentDateDesc(Doctor doctor);
     List<Appointment> findByDoctorAndAppointmentDate(Doctor doctor, LocalDate date);
+    List<Appointment> findByDoctorAndAppointmentDateAndStatusNot(Doctor doctor, LocalDate appointmentDate, AppointmentStatus status);
     List<Appointment> findAllByOrderByAppointmentDateDesc();
 }

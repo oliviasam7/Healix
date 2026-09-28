@@ -8,6 +8,7 @@ public class AppointmentDto {
     public String patientName;
     public Long doctorId;
     public String doctorName;
+    public String doctorRoom;
     public String specialization;
     public String appointmentDate;
     public String appointmentTime;
@@ -21,6 +22,7 @@ public class AppointmentDto {
         dto.patientName = a.getPatient().getUser().getFullName();
         dto.doctorId = a.getDoctor().getId();
         dto.doctorName = a.getDoctor().getUser().getFullName();
+        dto.doctorRoom = a.getDoctor() != null ? a.getDoctor().getRoom() : null;
         dto.specialization = a.getDoctor().getSpecialization();
         dto.appointmentDate = a.getAppointmentDate().toString();
         dto.appointmentTime = a.getAppointmentTime();

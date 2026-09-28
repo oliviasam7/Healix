@@ -36,7 +36,7 @@ public class UserService {
 
     public Doctor registerDoctor(String fullName, String email, String rawPassword, String phone,
                                   String specialization, String qualification, int experienceYears,
-                                  double fee, String availableDays, String availableTimeSlots) {
+                                  double fee, String availableDays, String availableTimeSlots, String room) {
         if (userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("An account with this email already exists.");
         }
@@ -51,6 +51,7 @@ public class UserService {
         doctor.setConsultationFee(fee);
         doctor.setAvailableDays(availableDays);
         doctor.setAvailableTimeSlots(availableTimeSlots);
+        doctor.setRoom(room);
         return doctorRepository.save(doctor);
     }
 
@@ -67,6 +68,10 @@ public class UserService {
     public Doctor getDoctorForUser(User user) {
         return doctorRepository.findByUser(user).orElseThrow(() ->
                 new IllegalStateException("No doctor profile found."));
+    }
+
+    public List<Patient> findAllPatients() {
+        return patientRepository.findAllByOrderByUserFullNameAsc();
     }
 
     public void ensureAdminExists(String email, String rawPassword) {

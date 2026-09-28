@@ -13,6 +13,7 @@ public class DoctorDto {
     public double consultationFee;
     public String availableDays;
     public String availableTimeSlots;
+    public String room;
 
     public static DoctorDto from(Doctor d) {
         DoctorDto dto = new DoctorDto();
@@ -26,6 +27,7 @@ public class DoctorDto {
         dto.consultationFee = d.getConsultationFee();
         dto.availableDays = d.getAvailableDays();
         dto.availableTimeSlots = d.getAvailableTimeSlots();
+        dto.room = d.getRoom();
         return dto;
     }
 }
